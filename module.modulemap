@@ -1,0 +1,6 @@
+module librazermacos {
+    umbrella header "librazermacos.h"
+    export *
+    link "razermacos"
+}
+

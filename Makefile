@@ -1,7 +1,8 @@
-.PHONY: all clean re
+.PHONY: all clean re static
 
 NAME=razermacos
 LIB_TARGET_NAME=lib$(NAME).so
+STATIC_LIB_NAME=lib$(NAME).a
 SRC=src
 LIB=lib
 OBJ=obj
@@ -26,10 +27,18 @@ CFLAGS=-Wall -Wextra -framework CoreFoundation -framework IOKit
 
 all: sample_cli
 
+# Build static library for Xcode integration
+static: $(STATIC_LIB_NAME)
+
+$(STATIC_LIB_NAME): $(LIB_OBJECTS)
+	@ar rcs $@ $^
+	@printf "$(GREEN) ✓ Building $(STATIC_LIB_NAME)\n"
+
 clean:
-	@rm -f $(LIB_OBJECTS) $(LIB_TARGET_NAME)
+	@rm -f $(LIB_OBJECTS) $(LIB_TARGET_NAME) $(STATIC_LIB_NAME) sample_cli
 	@printf "$(BLUE) ✗ Deletion of object files\n";
 	@printf "$(RED) ✗ Deletion of $(LIB_TARGET_NAME)\n";
+	@printf "$(RED) ✗ Deletion of $(STATIC_LIB_NAME)\n";
 	@printf "$(RED) ✗ Deletion of sample_cli\n";
 
 # Remake
